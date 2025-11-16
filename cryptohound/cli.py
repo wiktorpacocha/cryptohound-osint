@@ -1,3 +1,4 @@
+import csv
 import typer
 from rich.console import Console
 from rich.panel import Panel
@@ -64,7 +65,11 @@ def profile_address(
     html_output: str | None = typer.Option(
         None, "--html", help="Optional path to save HTML report (e.g. report.html)"
     ),
+    csv_output: str | None = typer.Option(
+        None, "--csv", help="Optional path to save transactions as CSV (e.g. txs.csv)"
+    ),
 ):
+
 
     """
     Build a basic OSINT profile of a crypto address on the selected or detected chain.
@@ -118,6 +123,30 @@ def profile_address(
         with open(html_output, "w", encoding="utf-8") as f:
             f.write(html)
         console.print(f"[green]HTML report saved to {html_output}[/green]")
+    if csv_output:
+        if not txs:
+            console.print(
+                "[yellow]No transactions available to export to CSV "
+                "(or tx export not yet implemented for this chain).[/yellow]"
+            )
+        else:
+            fieldnames = ["hash", "from", "to", "value", "timeStamp"]
+            try:
+                with open(csv_output, "w", encoding="utf-8", newline="") as f:
+                    writer = csv.DictWriter(f, fieldnames=fieldnames)
+                    writer.writeheader()
+                    for tx in txs:
+                        row = {
+                            "hash": tx.get("hash", ""),
+                            "from": tx.get("from", ""),
+                            "to": tx.get("to", ""),
+                            "value": tx.get("value", ""),
+                            "timeStamp": tx.get("timeStamp", ""),
+                        }
+                        writer.writerow(row)
+                console.print(f"[green]CSV transactions exported to {csv_output}[/green]")
+            except Exception as exc:
+                console.print(f"[red]Failed to write CSV:[/red] {exc}")
 
 
 if __name__ == "__main__":
