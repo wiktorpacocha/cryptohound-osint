@@ -1,10 +1,13 @@
 import typer
 from rich.console import Console
 from rich.panel import Panel
+
 from .config import load_config
 from .chains.ethereum import EthereumClient
+from .chains.bitcoin import BitcoinClient
 from .analysis.risk_scoring import basic_risk_scoring
 from .reports.text_report import render_text_report
+from .utils.validators import detect_chain_from_address
 
 console = Console()
 app = typer.Typer(help="CryptoHound – Crypto Fraud OSINT Toolkit")
@@ -21,16 +24,19 @@ def root(ctx: typer.Context):
     if ctx.invoked_subcommand is None:
         console.print(
             Panel(
-                "Welcome to CryptoHound – Crypto Fraud OSINT Toolkit (MVP).\n\n"
-                "Use the commands below to start investigating.\n"
-                "Example: python -m cryptohound.cli hello\n\n"
-                "For a full list of commands, run:\n"
-                "  python -m cryptohound.cli --help",
+                "Welcome to CryptoHound – Crypto Fraud OSINT Toolkit.\n\n"
+                "Examples:\n"
+                "  python -m cryptohound.cli hello\n"
+                "  python -m cryptohound.cli profile-address 1BoatSLRHtKNngkdXEeobR76b53LETtpyT\n"
+                "  python -m cryptohound.cli profile-address 0x00000000219ab540356cBB839Cbe05303d7705Fa\n\n"
+                "Tip: Chain is detected automatically from the address format.\n"
+                "You can still force it with: --chain eth or --chain btc",
                 title="CryptoHound",
                 expand=True,
             )
         )
         raise typer.Exit()
+
 
 
 @app.command()
@@ -40,20 +46,51 @@ def hello():
     """
     msg = "Welcome! CryptoHound is ready to hunt scammers (MVP)."
     console.print(Panel(msg, title="CryptoHound", expand=True))
+
+
 @app.command("profile-address")
 def profile_address(
-    address: str = typer.Argument(..., help="Ethereum wallet address (0x...)"),
+    address: str = typer.Argument(..., help="Wallet address to profile."),
+    chain: str = typer.Option(
+        "auto",
+        "--chain",
+        "-c",
+        help="Blockchain: auto (detect), eth (Ethereum), btc (Bitcoin).",
+    ),
     output: str | None = typer.Option(
         None, "--output", "-o", help="Optional path to save report as .txt"
     ),
 ):
     """
-    Build a basic OSINT profile of an Ethereum address.
+    Build a basic OSINT profile of a crypto address on the selected or detected chain.
     """
     cfg = load_config()
-    client = EthereumClient(cfg)
+    chain_l = chain.lower().strip()
 
-    console.log(f"Profiling [bold]{address}[/bold] on [bold]Ethereum[/bold]...")
+    # Auto-detect chain if requested
+    if chain_l == "auto":
+        detected = detect_chain_from_address(address)
+        if detected is None:
+            console.print(
+                "[red]Could not detect blockchain from this address format.[/red]\n"
+                "Please specify the chain explicitly with --chain eth or --chain btc."
+            )
+            raise typer.Exit(code=1)
+        chain_l = detected
+        console.log(f"Auto-detected chain: [bold]{chain_l}[/bold]")
+
+    # Select appropriate client
+    if chain_l == "eth":
+        client = EthereumClient(cfg)
+        chain_name = "Ethereum"
+    elif chain_l == "btc":
+        client = BitcoinClient(cfg)
+        chain_name = "Bitcoin"
+    else:
+        console.print(f"[red]Unsupported chain: {chain}[/red]")
+        raise typer.Exit(code=1)
+
+    console.log(f"Profiling [bold]{address}[/bold] on [bold]{chain_name}[/bold]...")
 
     try:
         profile = client.get_address_profile(address)
@@ -71,6 +108,7 @@ def profile_address(
         with open(output, "w", encoding="utf-8") as f:
             f.write(report_text)
         console.print(f"[green]Report saved to {output}[/green]")
+
 
 if __name__ == "__main__":
     app()
