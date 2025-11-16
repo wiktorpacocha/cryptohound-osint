@@ -1,5 +1,6 @@
 import csv
 from pathlib import Path
+from datetime import datetime
 
 import typer
 from rich.console import Console
@@ -14,6 +15,29 @@ from .utils.validators import detect_chain_from_address
 from .reports.html_report import render_html_report
 
 console = Console()
+def _set_first_last_seen_from_txs(profile, txs: list[dict]) -> None:
+    """
+    Derive first_seen / last_seen for an address profile from transaction timestamps,
+    if available. Mutates the profile in place.
+    """
+    timestamps: list[int] = []
+    for tx in txs:
+        ts = tx.get("timeStamp")
+        try:
+            ts_int = int(ts)
+        except (TypeError, ValueError):
+            continue
+        timestamps.append(ts_int)
+
+    if not timestamps:
+        return
+
+    first = min(timestamps)
+    last = max(timestamps)
+
+    profile.first_seen = datetime.utcfromtimestamp(first).isoformat() + "Z"
+    profile.last_seen = datetime.utcfromtimestamp(last).isoformat() + "Z"
+
 app = typer.Typer(help="CryptoHound – Crypto Fraud OSINT Toolkit")
 
 
@@ -115,6 +139,10 @@ def report_command(
     except Exception as exc:
         console.print(f"[red]Error during lookup:[/red] {exc}")
         raise typer.Exit(code=1)
+    
+    # Derive first/last seen from tx timestamps, if available
+    _set_first_last_seen_from_txs(profile, txs)
+
 
     risk = basic_risk_scoring(profile, txs)
     text_report = render_text_report(profile, risk)

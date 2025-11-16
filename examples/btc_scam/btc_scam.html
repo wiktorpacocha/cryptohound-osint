@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>CryptoHound OSINT Report – 1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #0b1020;
+      color: #e4e7f5;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 960px;
+      margin: 24px auto;
+      padding: 24px;
+      background: #11172b;
+      border-radius: 12px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.55);
+      border: 1px solid #222a42;
+    }
+    h1, h2, h3 {
+      color: #ffffff;
+      margin-bottom: 0.4rem;
+    }
+    h1 {
+      font-size: 1.8rem;
+    }
+    h2 {
+      font-size: 1.3rem;
+      margin-top: 1.8rem;
+    }
+    .meta {
+      font-size: 0.85rem;
+      color: #9fa6c4;
+      margin-bottom: 1rem;
+    }
+    .badge {
+      display: inline-block;
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border: 1px solid #2f3a63;
+      background: linear-gradient(135deg, #1c2644, #151b2f);
+      margin-right: 0.4rem;
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 0.8rem;
+    }
+    .card {
+      background: #141a33;
+      border-radius: 10px;
+      padding: 12px 14px;
+      border: 1px solid #252f52;
+    }
+    .label {
+      font-size: 0.75rem;
+      color: #9fa6c4;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 0.25rem;
+    }
+    .value {
+      font-size: 0.98rem;
+      font-weight: 500;
+    }
+    .risk-score {
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+    .risk-low { color: #4ade80; }
+    .risk-medium { color: #facc15; }
+    .risk-high { color: #fb7185; }
+    .section {
+      margin-top: 1.6rem;
+    }
+    .tx-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.6rem;
+      font-size: 0.86rem;
+    }
+    .tx-table th, .tx-table td {
+      border: 1px solid #242b4b;
+      padding: 6px 8px;
+      text-align: left;
+      vertical-align: top;
+    }
+    .tx-table thead {
+      background: #1c2442;
+    }
+    code {
+      font-family: "JetBrains Mono", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 0.8rem;
+      background: #121426;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+    .disclaimer {
+      font-size: 0.8rem;
+      color: #9fa6c4;
+      margin-top: 1.6rem;
+      border-top: 1px dashed #2b3456;
+      padding-top: 0.8rem;
+    }
+    a {
+      color: #60a5fa;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>CryptoHound OSINT Report</h1>
+    <div class="meta">
+      <span class="badge">Chain: bitcoin</span>
+      <span class="badge">Generated: 2025-11-16T15:25:45.575463Z</span>
+    </div>
+
+    <div class="section">
+      <h2>Address Overview</h2>
+      <div class="summary-grid">
+        <div class="card">
+          <div class="label">Address</div>
+          <div class="value"><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></div>
+        </div>
+        <div class="card">
+          <div class="label">Balance</div>
+          <div class="value">0.00131661 BTC</div>
+        </div>
+        <div class="card">
+          <div class="label">Transaction Count</div>
+          <div class="value">61</div>
+        </div>
+        <div class="card">
+          <div class="label">First Seen</div>
+          <div class="value">2015-10-27T01:37:32Z</div>
+        </div>
+        <div class="card">
+          <div class="label">Last Seen</div>
+          <div class="value">2025-07-29T12:55:19Z</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Risk Assessment</h2>
+      <div class="card">
+        <div class="label">Risk Score</div>
+        <div class="value risk-score risk-medium">31/100</div>
+      </div>
+      <div class="section">
+        <h3>Flags</h3>
+        <ul><li><strong>ELEVATED_VOLUME</strong>: Moderately high on-chain activity (tx count ≈ 61). (weight 8)</li><li><strong>MULTIPLE_SENDERS</strong>: Receives from several different addresses (17+). (weight 8)</li><li><strong>DUSTING_PATTERN</strong>: Address receives many very small incoming amounts (possible dust / spam / mixer-style behaviour). (weight 15)</li></ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Recent Transactions</h2>
+      
+        <table class="tx-table">
+          <thead>
+            <tr>
+              <th>Tx Hash</th>
+              <th>From</th>
+              <th>To</th>
+              <th>Value</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td><code>f38d3fc3424622efc838e236450594d71a86493bfbfe644c46b0f7f4dc7682f9</code></td>
+              <td><code>bc1q3c4rys8ak8ddde4ftqwwaxtny7lrelqc0jtxp9</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td>570</td>
+              <td>1753793719</td>
+            </tr>
+            
+            <tr>
+              <td><code>9722e3123f476261df347653ea8ecb8b34c936aa77d831b57cea85f4caaa2f6f</code></td>
+              <td><code>bc1qp48vdtur2jlpahky475fwxu8c6w7n7ssuy239f</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td>570</td>
+              <td>1753793533</td>
+            </tr>
+            
+            <tr>
+              <td><code>e9fe5da64806924708887ee44154abc03f9ed950e8c72c7342c6df5c9a84ddf9</code></td>
+              <td><code>bc1qtn5ymxpy9pv2ydvy43v0fhp4av2s54jlcep9l0</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td>570</td>
+              <td>1753774478</td>
+            </tr>
+            
+            <tr>
+              <td><code>f7ea570af597add2701eba328662833790cc19d362766f6aea219d35e5a601d2</code></td>
+              <td><code>bc1qzptk7xwnk0cxf3fffeekj3dtxukl0dr3dhz3rs</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td>570</td>
+              <td>1753771997</td>
+            </tr>
+            
+            <tr>
+              <td><code>6e9f3b59be7f87bac4798f6ea14d612462271f68669e7b62821efc16adef47db</code></td>
+              <td><code>bc1q3eu3sltgjxt4w52zmfarwzmzhw0f389mxw2pvz</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td>570</td>
+              <td>1753629548</td>
+            </tr>
+            
+            <tr>
+              <td><code>896ac7c328f8bca5c8764fb6f624b1863c669c8970a25c24a2b6fd65b95567cb</code></td>
+              <td><code>bc1qz8nwx28zx7e4u3ta0fummuc9n2kknqdd2huefc</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td>570</td>
+              <td>1753274740</td>
+            </tr>
+            
+            <tr>
+              <td><code>2d73564c65aeb36c18093a7ede30f798e55c5f07ad8d3d92570ddae92ec547af</code></td>
+              <td><code>bc1qstp73h89vufqrza0yxzq9v0trmgqft5z24enft</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td>700</td>
+              <td>1752579838</td>
+            </tr>
+            
+            <tr>
+              <td><code>0e0a57d1d433e1bd1f4ad32371c45ddaf52aebee771c41ed2fe7991c4d5b2ab6</code></td>
+              <td><code>bc1q0vejfct0xhzhqf234pfw7leg42p4h0wtf2vehv</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td>700</td>
+              <td>1752489785</td>
+            </tr>
+            
+            <tr>
+              <td><code>23ff7a47cff1ea987f10b32ab00ddee45e289bb5bd892c162e9b9d94aa6dfd89</code></td>
+              <td><code>bc1qjmnrfc9lssnl9q2wpp4v6yj69tun4dvvvm60d6</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td>700</td>
+              <td>1752472809</td>
+            </tr>
+            
+            <tr>
+              <td><code>47c8d6cf894c9e19f9787385ff70aedfdc5582e860b35cfa61d2faba873e3ef1</code></td>
+              <td><code>1PutinnXLLPNX3DRhZzjuwA3uu6UScpYF4</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td>560</td>
+              <td>1726816882</td>
+            </tr>
+            
+            <tr>
+              <td><code>67b4bb90bc261aa3669466bcd4d1bf27af306116f7f9b003080fa4c661e1ee73</code></td>
+              <td><code>bc1q0qpde793zk7suvrruwa7vv632dlp4luzcdyk9x</code></td>
+              <td><code>3H5Ganf21zAfMCYCn3RqGTDVxxUDrADNZD</code></td>
+              <td>1127215</td>
+              <td>1588680905</td>
+            </tr>
+            
+            <tr>
+              <td><code>450b28d488d6668e807de327f5574de8f02554f08b738b0a54f8e2e9fb2682b3</code></td>
+              <td><code>35hb6CjLZ7H4KnorxaB37tH3KxL9PEfVZy</code></td>
+              <td><code>1BzwRZiBFzWJwHn4yUkVaFxg1sjQr4dixz</code></td>
+              <td>26000000</td>
+              <td>1550798718</td>
+            </tr>
+            
+            <tr>
+              <td><code>12f23c44775c3b002f576b437dcb5bc79a7da9c1f2c94a7833d395d806fa6794</code></td>
+              <td><code>1A8kgZZqxdmQEVwePzjtq5FMu28so2dmmH</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td>1000</td>
+              <td>1541818567</td>
+            </tr>
+            
+            <tr>
+              <td><code>5eb58a3138e3df6e7aeda6e8a15e7b3d0590849af6aa5f868d800a9dd3ce0609</code></td>
+              <td><code>1Nk3wv9EjazsYAWWcEJ8xPjzxdAC12idbn</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td>900</td>
+              <td>1541818567</td>
+            </tr>
+            
+            <tr>
+              <td><code>73b876939406fb21ab270d6f96c47d1f3e426de0398b495db914ee727fc14df5</code></td>
+              <td><code>1AK4LYE6PYwBmSYHQX3v2UsXXHTvCAsJeK</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td>684</td>
+              <td>1535263685</td>
+            </tr>
+            
+            <tr>
+              <td><code>d677693660b4de097a9e0100d0cc0b1244b02ad8d17ce9435f93b99a21761335</code></td>
+              <td><code>1BiTCHeYzJNMxBLFCMkwYXNdFEdPJP53ZV</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td>4200</td>
+              <td>1533313089</td>
+            </tr>
+            
+            <tr>
+              <td><code>e1d833e2ee7d859d0e832b23b4daec9579c16b33642fce1d3b55263075167329</code></td>
+              <td><code>1FUCKUvDzH57XXrHi71urQyJmo6AdTyNoa</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td>4200</td>
+              <td>1533313089</td>
+            </tr>
+            
+            <tr>
+              <td><code>06e4156ef6bc7d9595177e633744029da562563c7dbf5aee68dfdaebb38b434d</code></td>
+              <td><code>1AK4LYE6PYwBmSYHQX3v2UsXXHTvCAsJeK</code></td>
+              <td><code>1Kr6QSydW9bFQG1mXiPNNu6WpJGmUa9i1g</code></td>
+              <td>834</td>
+              <td>1532798714</td>
+            </tr>
+            
+            <tr>
+              <td><code>70dd4a9a849af762f1d8422e6c33f4db36f2a83342cc48e60aec97b4c1f2c14b</code></td>
+              <td><code>1HBN6fb6am7XJgxJpRNxNTrfJfVZTVxBax</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td>1024</td>
+              <td>1485171263</td>
+            </tr>
+            
+            <tr>
+              <td><code>0a2f79473d42b030ee70d225212a14db68247521a53939da741cbe9cdb3a25cd</code></td>
+              <td><code>355gubKZeMnn9aF3pVP95rzj3uTDxwXyXr</code></td>
+              <td><code>178RpE2LaJXmCoYBBV9SzFygj31hxi2794</code></td>
+              <td>5500</td>
+              <td>1477170238</td>
+            </tr>
+            
+            <tr>
+              <td><code>962981d6981135a9579bb3a68256b1b3caf25e550e7d5b7002c9f93283bc1b1b</code></td>
+              <td><code>1JmkN9u18grY8g3JZS73CA73jLav2rHRGe</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td>10000</td>
+              <td>1476279270</td>
+            </tr>
+            
+            <tr>
+              <td><code>da849be1571092b467da9be31bcb0a43508bde5776173954bdba0d48845bd842</code></td>
+              <td><code>15fszyyM95UANiEeVa4H5L6va7Z7UFZCYP</code></td>
+              <td><code>19BY2XCgbDe6WtTVbTyzM9eR3LYr6VitWK</code></td>
+              <td>1000</td>
+              <td>1472081632</td>
+            </tr>
+            
+            <tr>
+              <td><code>4223a6a665591348a733536fa7a3164f1dc68be4e024424193981b131945fe12</code></td>
+              <td><code>1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55</code></td>
+              <td><code>18natxG8EnhmcQQAjirNXoGrZ5geBWcM2R</code></td>
+              <td>229535772</td>
+              <td>1469741189</td>
+            </tr>
+            
+            <tr>
+              <td><code>1df5d7425fbc44a5b05f7a3e0886037d662d31030a4c8e25a606a3e38548c4e9</code></td>
+              <td><code>1KkW2WtWUC4pFSJteVyD7f6GRJb2uajJ5x</code></td>
+              <td><code>1KkW2WtWUC4pFSJteVyD7f6GRJb2uajJ5x</code></td>
+              <td>10589</td>
+              <td>1451889538</td>
+            </tr>
+            
+            <tr>
+              <td><code>9c1d8c79540e28cd3f12cc152fcbacb7d1422170df39ad69f08fb142c6b8e383</code></td>
+              <td><code>1DMB2XAmk6LcCH1DcExZdT1VaUqQtmB8kJ</code></td>
+              <td><code>13fci5FCHhe62f5EbMJ9PFCV6YdFmUiXzX</code></td>
+              <td>10000</td>
+              <td>1445909852</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        
+    </div>
+
+    <div class="disclaimer">
+      This report is generated from open-source intelligence (OSINT) only.
+      It does not guarantee completeness or accuracy and is not financial advice
+      or a substitute for professional forensics or law enforcement investigation.
+    </div>
+  </div>
+</body>
+</html>
+    

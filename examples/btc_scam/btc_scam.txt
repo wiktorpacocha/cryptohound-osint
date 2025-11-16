@@ -1,0 +1,18 @@
+=== CryptoHound OSINT Report ===
+Generated: 2025-11-16T15:25:45.575439Z
+Chain   : bitcoin
+Address : 1Ez69SnzzmePmZX3WpEzMKTrcBF2gpNQ55
+
+---- Address Overview ----
+Balance  : 0.00131661 BTC
+Tx Count : 61
+First Seen : 2015-10-27T01:37:32Z
+Last  Seen : 2025-07-29T12:55:19Z
+
+---- Risk Assessment ----
+Risk Score: 31/100
+- [ELEVATED_VOLUME] Moderately high on-chain activity (tx count ≈ 61). (weight 8)
+- [MULTIPLE_SENDERS] Receives from several different addresses (17+). (weight 8)
+- [DUSTING_PATTERN] Address receives many very small incoming amounts (possible dust / spam / mixer-style behaviour). (weight 15)
+
+Disclaimer: OSINT & heuristic-based only. Not financial advice or formal forensics.

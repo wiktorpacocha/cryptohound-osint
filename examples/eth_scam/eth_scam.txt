@@ -1,0 +1,15 @@
+=== CryptoHound OSINT Report ===
+Generated: 2025-11-16T14:54:38.115194Z
+Chain   : ethereum
+Address : 0x4fabb145d64652a948d72533023f6e7a623c7c53
+
+---- Address Overview ----
+Balance  : 0.00000000 ETH
+Tx Count : 0
+First Seen : None
+Last  Seen : None
+
+---- Risk Assessment ----
+Risk Score: 0/100
+
+Disclaimer: OSINT & heuristic-based only. Not financial advice or formal forensics.
