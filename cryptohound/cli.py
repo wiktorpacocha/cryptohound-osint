@@ -8,6 +8,7 @@ from .chains.bitcoin import BitcoinClient
 from .analysis.risk_scoring import basic_risk_scoring
 from .reports.text_report import render_text_report
 from .utils.validators import detect_chain_from_address
+from .reports.html_report import render_html_report
 
 console = Console()
 app = typer.Typer(help="CryptoHound – Crypto Fraud OSINT Toolkit")
@@ -58,9 +59,13 @@ def profile_address(
         help="Blockchain: auto (detect), eth (Ethereum), btc (Bitcoin).",
     ),
     output: str | None = typer.Option(
-        None, "--output", "-o", help="Optional path to save report as .txt"
+        None, "--output", "-o", help="Optional path to save text report as .txt"
+    ),
+    html_output: str | None = typer.Option(
+        None, "--html", help="Optional path to save HTML report (e.g. report.html)"
     ),
 ):
+
     """
     Build a basic OSINT profile of a crypto address on the selected or detected chain.
     """
@@ -108,6 +113,11 @@ def profile_address(
         with open(output, "w", encoding="utf-8") as f:
             f.write(report_text)
         console.print(f"[green]Report saved to {output}[/green]")
+    if html_output:
+        html = render_html_report(profile, risk, txs)
+        with open(html_output, "w", encoding="utf-8") as f:
+            f.write(html)
+        console.print(f"[green]HTML report saved to {html_output}[/green]")
 
 
 if __name__ == "__main__":
