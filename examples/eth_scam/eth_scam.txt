@@ -1,15 +1,19 @@
 === CryptoHound OSINT Report ===
-Generated: 2025-11-16T14:54:38.115194Z
+Generated: 2025-11-16T16:19:35.441865Z
 Chain   : ethereum
-Address : 0x4fabb145d64652a948d72533023f6e7a623c7c53
+Address : 0x3e0defb880cd8e163bad68abe66437f99a7a8a74
 
 ---- Address Overview ----
-Balance  : 0.00000000 ETH
-Tx Count : 0
-First Seen : None
-Last  Seen : None
+Balance  : 3.05379919 ETH
+Tx Count : 100
+First Seen : 2022-02-20T11:30:37Z
+Last  Seen : 2023-04-10T13:23:23Z
 
 ---- Risk Assessment ----
-Risk Score: 0/100
+Risk Score: 48/100
+- [HIGH_VOLUME] High on-chain activity (tx count ≈ 100). (weight 15)
+- [MULTIPLE_SENDERS] Receives from several different addresses (10+). (weight 8)
+- [DUSTING_PATTERN] Address receives many very small incoming amounts (possible dust / spam / mixer-style behaviour). (weight 15)
+- [BURST_ACTIVITY] Detected a burst of transactions in a short time window. (weight 10)
 
 Disclaimer: OSINT & heuristic-based only. Not financial advice or formal forensics.
