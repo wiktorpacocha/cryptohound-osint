@@ -1,4 +1,6 @@
 import csv
+from pathlib import Path
+
 import typer
 from rich.console import Console
 from rich.panel import Panel
@@ -50,29 +52,34 @@ def hello():
     console.print(Panel(msg, title="CryptoHound", expand=True))
 
 
-@app.command("profile-address")
-def profile_address(
-    address: str = typer.Argument(..., help="Wallet address to profile."),
+@app.command("report")
+def report_command(
+    address: str = typer.Argument(..., help="Wallet address to investigate."),
     chain: str = typer.Option(
         "auto",
         "--chain",
         "-c",
         help="Blockchain: auto (detect), eth (Ethereum), btc (Bitcoin).",
     ),
-    output: str | None = typer.Option(
-        None, "--output", "-o", help="Optional path to save text report as .txt"
+    outdir: Path = typer.Option(
+        Path("./reports"),
+        "--outdir",
+        "-d",
+        help="Directory where all report files will be saved.",
     ),
-    html_output: str | None = typer.Option(
-        None, "--html", help="Optional path to save HTML report (e.g. report.html)"
-    ),
-    csv_output: str | None = typer.Option(
-        None, "--csv", help="Optional path to save transactions as CSV (e.g. txs.csv)"
+    name: str | None = typer.Option(
+        None,
+        "--name",
+        "-n",
+        help="Base name for output files (default: derived from address).",
     ),
 ):
-
-
     """
-    Build a basic OSINT profile of a crypto address on the selected or detected chain.
+    Generate a full OSINT report for an address:
+
+    - Text summary (.txt)
+    - HTML report (.html)
+    - Transactions CSV (.csv)
     """
     cfg = load_config()
     chain_l = chain.lower().strip()
@@ -89,7 +96,7 @@ def profile_address(
         chain_l = detected
         console.log(f"Auto-detected chain: [bold]{chain_l}[/bold]")
 
-    # Select appropriate client
+    # Select client
     if chain_l == "eth":
         client = EthereumClient(cfg)
         chain_name = "Ethereum"
@@ -97,56 +104,84 @@ def profile_address(
         client = BitcoinClient(cfg)
         chain_name = "Bitcoin"
     else:
-        console.print(f"[red]Unsupported chain: {chain}[/red]")
+        console.print(f"[red]Unsupported chain: {chain_l}[/red]")
         raise typer.Exit(code=1)
 
-    console.log(f"Profiling [bold]{address}[/bold] on [bold]{chain_name}[/bold]...")
+    console.log(f"Generating full report for [bold]{address}[/bold] on [bold]{chain_name}[/bold]...")
 
     try:
         profile = client.get_address_profile(address)
-        txs = client.get_recent_transactions(address, limit=50)
+        txs = client.get_recent_transactions(address, limit=100)
     except Exception as exc:
         console.print(f"[red]Error during lookup:[/red] {exc}")
         raise typer.Exit(code=1)
 
     risk = basic_risk_scoring(profile, txs)
-    report_text = render_text_report(profile, risk)
+    text_report = render_text_report(profile, risk)
+    html_report = render_html_report(profile, risk, txs)
 
-    console.print(Panel(report_text, title="CryptoHound Report", expand=True))
+    # Prepare output directory and filenames
+    outdir.mkdir(parents=True, exist_ok=True)
 
-    if output:
-        with open(output, "w", encoding="utf-8") as f:
-            f.write(report_text)
-        console.print(f"[green]Report saved to {output}[/green]")
-    if html_output:
-        html = render_html_report(profile, risk, txs)
-        with open(html_output, "w", encoding="utf-8") as f:
-            f.write(html)
-        console.print(f"[green]HTML report saved to {html_output}[/green]")
-    if csv_output:
-        if not txs:
-            console.print(
-                "[yellow]No transactions available to export to CSV "
-                "(or tx export not yet implemented for this chain).[/yellow]"
-            )
-        else:
-            fieldnames = ["hash", "from", "to", "value", "timeStamp"]
-            try:
-                with open(csv_output, "w", encoding="utf-8", newline="") as f:
-                    writer = csv.DictWriter(f, fieldnames=fieldnames)
-                    writer.writeheader()
-                    for tx in txs:
-                        row = {
-                            "hash": tx.get("hash", ""),
-                            "from": tx.get("from", ""),
-                            "to": tx.get("to", ""),
-                            "value": tx.get("value", ""),
-                            "timeStamp": tx.get("timeStamp", ""),
-                        }
-                        writer.writerow(row)
-                console.print(f"[green]CSV transactions exported to {csv_output}[/green]")
-            except Exception as exc:
-                console.print(f"[red]Failed to write CSV:[/red] {exc}")
+    if name:
+        base = name.strip()
+    else:
+        # Derive a simple safe base from address (first 10 chars, no special symbols)
+        base = address.replace(":", "_").replace("/", "_")[:16] or "report"
+
+    txt_path = outdir / f"{base}.txt"
+    html_path = outdir / f"{base}.html"
+    csv_path = outdir / f"{base}_txs.csv"
+
+    # Write TXT
+    with open(txt_path, "w", encoding="utf-8") as f:
+        f.write(text_report)
+
+    # Write HTML
+    with open(html_path, "w", encoding="utf-8") as f:
+        f.write(html_report)
+
+    # Write CSV (if we have txs)
+    if txs:
+        fieldnames = ["hash", "from", "to", "value", "timeStamp"]
+        try:
+            with open(csv_path, "w", encoding="utf-8", newline="") as f:
+                writer = csv.DictWriter(f, fieldnames=fieldnames)
+                writer.writeheader()
+                for tx in txs:
+                    row = {
+                        "hash": tx.get("hash", ""),
+                        "from": tx.get("from", ""),
+                        "to": tx.get("to", ""),
+                        "value": tx.get("value", ""),
+                        "timeStamp": tx.get("timeStamp", ""),
+                    }
+                    writer.writerow(row)
+        except Exception as exc:
+            console.print(f"[red]Failed to write CSV:[/red] {exc}")
+            csv_path = None
+    else:
+        csv_path = None
+        console.print(
+            "[yellow]No transactions available to export to CSV "
+            "(or tx export not yet implemented for this chain).[/yellow]"
+        )
+
+    console.print(
+        Panel(
+            "\n".join(
+                [
+                    "Report files generated:",
+                    f"- [bold]TXT[/bold] : {txt_path}",
+                    f"- [bold]HTML[/bold]: {html_path}",
+                    f"- [bold]CSV[/bold] : {csv_path if csv_path else 'N/A'}",
+                ]
+            ),
+            title="CryptoHound – Report Generated",
+            expand=True,
+        )
+    )
+
 
 
 if __name__ == "__main__":
